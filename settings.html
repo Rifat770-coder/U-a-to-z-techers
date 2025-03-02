@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings Management - UniConnect</title>
+    <style>
+        /* Reuse the same styles from the Faculty, Course, Student, Calendar, and Report Management pages */
+        :root {
+            --primary: #2c3e50;
+            --secondary: #34495e;
+            --accent: #e67e22;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --info: #3498db;
+            --muted: #95a5a6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            margin-right: 0.5rem;
+            font-size: 1.8rem;
+        }
+
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--accent);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+        }
+
+        nav {
+            background-color: var(--primary);
+            padding: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin: 0 0.8rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a i {
+            margin-right: 0.4rem;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            color: white;
+            cursor: pointer;
+        }
+
+        .profile-img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.8rem;
+            font-weight: bold;
+        }
+
+        main {
+            padding: 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .breadcrumbs {
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .breadcrumbs a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .breadcrumbs span {
+            margin: 0 0.5rem;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.8rem;
+        }
+
+        h2 {
+            color: var(--primary);
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+        }
+
+        h2 i {
+            margin-right: 0.5rem;
+            color: var(--accent);
+        }
+
+        .card-action {
+            color: var(--info);
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s, transform 0.2s;
+            display: flex;
+            align-items: center;
+        }
+
+        .btn i {
+            margin-right: 0.4rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #243442;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-accent {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .btn-accent:hover {
+            background-color: #d35400;
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group .checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-group .checkbox input {
+            width: auto;
+        }
+
+        .form-group .checkbox label {
+            margin-bottom: 0;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .settings-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .settings-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .settings-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .settings-description {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .settings-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .settings-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="brand">
+            <div class="logo">
+                <span class="logo-icon">🏛️</span>
+                UniConnect
+            </div>
+            <div class="notification-bell">
+                <span>🔔</span>
+                <div class="notification-badge">5</div>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <ul class="nav-links">
+            <li><a href="#"><i>📊</i> Dashboard</a></li>
+            <li><a href="#"><i>👨‍🏫</i> Faculty</a></li>
+            <li><a href="#"><i>📚</i> Courses</a></li>
+            <li><a href="#"><i>👨‍🎓</i> Students</a></li>
+            <li><a href="#"><i>📅</i> Calendar</a></li>
+            <li><a href="#"><i>📝</i> Reports</a></li>
+            <li><a href="#" class="active"><i>⚙️</i> Settings</a></li>
+        </ul>
+
+        <div class="profile">
+            <div class="profile-img">DM</div>
+            <span>Dr. Mitchell • Computer Science Dept.</span>
+        </div>
+    </nav>
+
+    <main>
+        <div class="breadcrumbs">
+            <a href="#">Home</a> <span>›</span> <a href="#">System Administration</a> <span>›</span> Settings Management
+        </div>
+
+        <div class="page-header">
+            <h1 class="page-title">Settings Management</h1>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary"><i>💾</i> Save Changes</button>
+                <button class="btn btn-accent"><i>🔄</i> Reset to Default</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2><i>⚙️</i> System Settings</h2>
+            </div>
+
+            <div class="form-group">
+                <label for="system-name">System Name</label>
+                <input type="text" id="system-name" placeholder="Enter system name">
+            </div>
+
+            <div class="form-group">
+                <label for="timezone">Timezone</label>
+                <select id="timezone">
+                    <option>UTC</option>
+                    <option>GMT</option>
+                    <option>EST</option>
+                    <option>PST</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="language">Language</label>
+                <select id="language">
+                    <option>English</option>
+                    <option>Spanish</option>
+                    <option>French</option>
+                    <option>German</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="theme">Theme</label>
+                <select id="theme">
+                    <option>Light</option>
+                    <option>Dark</option>
+                    <option>System Default</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2><i>🔒</i> Security Settings</h2>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Change Password</label>
+                <input type="password" id="password" placeholder="Enter new password">
+            </div>
+
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" placeholder="Confirm new password">
+            </div>
+
+            <div class="form-group">
+                <label for="two-factor">Two-Factor Authentication</label>
+                <div class="checkbox">
+                    <input type="checkbox" id="two-factor">
+                    <label for="two-factor">Enable Two-Factor Authentication</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2><i>📧</i> Notification Settings</h2>
+            </div>
+
+            <div class="form-group">
+                <label for="email-notifications">Email Notifications</label>
+                <div class="checkbox">
+                    <input type="checkbox" id="email-notifications">
+                    <label for="email-notifications">Enable Email Notifications</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="push-notifications">Push Notifications</label>
+                <div class="checkbox">
+                    <input type="checkbox" id="push-notifications">
+                    <label for="push-notifications">Enable Push Notifications</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="notification-frequency">Notification Frequency</label>
+                <select id="notification-frequency">
+                    <option>Immediately</option>
+                    <option>Daily</option>
+                    <option>Weekly</option>
+                </select>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
